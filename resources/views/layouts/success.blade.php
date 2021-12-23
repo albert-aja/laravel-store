@@ -18,9 +18,6 @@
   </head>
 
   <body>
-    <!-- navbar -->
-    @include('template.client._navbar')
-
     <!-- Page Content -->
     @yield('content')
 

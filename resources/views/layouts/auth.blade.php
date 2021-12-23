@@ -19,7 +19,7 @@
 
   <body>
     <!-- navbar -->
-    @include('template.client._navbar')
+    @include('template.client._navbar-auth')
 
     <!-- Page Content -->
     @yield('content')

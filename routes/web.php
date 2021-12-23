@@ -2,6 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DetailController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\Auth\RegisterController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,14 +19,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/Category', [CategoryController::class, 'index'])->name('category');
+Route::get('/Detail/{id}', [DetailController::class, 'index'])->name('detail');
+Route::get('/Cart', [CartController::class, 'index'])->name('cart');
+Route::get('/Success', [CartController::class, 'success'])->name('success');
 
-Route::get('/debug-sentry', function () {
-    throw new Exception('My first Sentry error!');
-});
+Route::get('/Register/Success', [RegisterController::class, 'registerSuccess'])->name('register-success');
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
