@@ -46,3 +46,4 @@ Route::get('/Account', [AccountController::class, 'index'])->name('account');
 Route::get('/Register/Success', [RegisterController::class, 'registerSuccess'])->name('register-success');
 
 Auth::routes();
+
