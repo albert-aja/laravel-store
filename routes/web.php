@@ -7,11 +7,12 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardController as userDashboard;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Admin\DashboardController as adminDashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,7 @@ use App\Http\Controllers\AccountController;
 |
 */
 
+//user
 //home
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/Category', [CategoryController::class, 'index'])->name('category');
@@ -32,7 +34,7 @@ Route::get('/Cart', [CartController::class, 'index'])->name('cart');
 Route::get('/Success', [CartController::class, 'success'])->name('success');
 
 //dashboard
-Route::get('/Dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/Dashboard', [userDashboard::class, 'index'])->name('dashboard');
 Route::get('/Product', [ProductController::class, 'index'])->name('product');
 Route::get('/AddProduct', [ProductController::class, 'addProduct'])->name('addProduct');
 Route::get('/ProductDetail/{id}', [ProductController::class, 'productDetail'])->name('productDetail');
@@ -42,6 +44,12 @@ Route::get('/TransactionDetail/{id}', [TransactionController::class, 'transactio
 Route::get('/Setting', [SettingController::class, 'index'])->name('setting');
 Route::get('/Account', [AccountController::class, 'index'])->name('account');
 
+//admin dashboard
+Route::prefix('Admin')->namespace('Admin')->group(function(){
+    Route::get('/', [adminDashboard::class, 'index'])->name('admin-dashboard');
+});
+
+// ->middleware(['auth','admin'])
 //auth
 Route::get('/Register/Success', [RegisterController::class, 'registerSuccess'])->name('register-success');
 

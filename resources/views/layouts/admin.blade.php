@@ -7,7 +7,7 @@
 
     {{-- css --}}
     @stack('prepend-style')
-    @include('template.client.dashboard._style')
+    @include('template.server._style')
     @stack('addon-style')
   </head>
 
@@ -16,12 +16,12 @@
       <div class="d-flex" id="wrapper" data-aos="fade-right">
 
         <!-- sidebar -->
-        @include('template.client.dashboard._sidebar')
+        @include('template.server._sidebar')
         
         <!-- page content -->
         <div id="page-content-wrapper">
-            {{-- nav --}}
-            @include('template.client.dashboard._nav')
+          {{-- nav --}}
+          @include('template.server._nav')
 
           <!-- content -->
           @yield('content')
@@ -32,7 +32,7 @@
 
     <!-- Bootstrap core JavaScript -->
     @stack('prepend-script')
-    @include('template.client.dashboard._script')
+    @include('template.server._script')
     @stack('addon-script')
     
   </body>

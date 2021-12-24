@@ -7,7 +7,7 @@
 
     <!-- css -->
     @stack('prepend-style')
-    @include('template.client._style')
+    @include('template.client.marketplace._style')
     @stack('addon-style')
   </head>
 
@@ -16,11 +16,11 @@
     @yield('content')
 
     <!-- footer -->
-    @include('template.client._footer')
+    @include('template.client.marketplace._footer')
 
     <!-- script -->
     @stack('prepend-script')
-    @include('template.client._script')
+    @include('template.client.marketplace._script')
     @stack('addon-script')
   </body>
 </html>

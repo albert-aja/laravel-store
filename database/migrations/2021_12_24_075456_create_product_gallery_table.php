@@ -13,7 +13,7 @@ class CreateProductGalleryTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_gallery', function (Blueprint $table) {
+        Schema::create('product_galleries', function (Blueprint $table) {
             $table->id();
             $table->string('photo');
             $table->integer('product_id');
@@ -28,6 +28,6 @@ class CreateProductGalleryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_gallery');
+        Schema::dropIfExists('product_galleries');
     }
 }
