@@ -62,7 +62,12 @@
                 url: '{!! url()->current() !!}',
             },
             columns: [
-                {data: 'id', name: 'id'},
+                {
+                    data: 'DT_RowIndex', 
+                    name: 'DT_RowIndex', 
+                    orderable: false, 
+                    searchable: false
+                },
                 {data: 'category', name: 'category'},
                 {data: 'photo', name: 'photo'},
                 {data: 'slug', name: 'slug'},

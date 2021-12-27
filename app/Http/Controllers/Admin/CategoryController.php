@@ -15,11 +15,6 @@ class CategoryController extends Controller
         $this->index_route = 'Category.index';
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         if(request()->ajax()){
@@ -46,28 +41,18 @@ class CategoryController extends Controller
                             return $item->photo ? '<img src="' .Storage::url($item->photo). '" style="max-height: 2.4em"/>' : '';
                         })
                         ->rawColumns(['action', 'photo'])
+                        ->addIndexColumn()
                         ->make();
         }
 
         return view('pages.server.category.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('pages.server.category.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -94,11 +79,6 @@ class CategoryController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $item = $this->category::findOrFail($id);
@@ -108,12 +88,6 @@ class CategoryController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $data = $request->validate([
@@ -136,11 +110,6 @@ class CategoryController extends Controller
         return redirect()->route($this->index_route);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $this->category::findOrFail($id)->delete();
