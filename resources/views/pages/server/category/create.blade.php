@@ -4,14 +4,6 @@
     Admin - Create Category Page
 @endsection
 
-@push('addon-style')
-<style>
-    .admin-logo {
-        width: 120px;
-    }
-</style>
-@endpush
-
 @section('content')
 <div class="section-content section-dashboard-home" data-aos="fade-up">
     <div class="container-fluid">

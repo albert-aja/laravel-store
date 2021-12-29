@@ -8,17 +8,17 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class CategoryController extends Controller
+class UserController extends Controller
 {
     public function __construct()
     {
-        $this->index_route = 'Category.index';
+        $this->index_route = 'User.index';
     }
 
     public function index()
     {
         if(request()->ajax()){
-            $query = $this->category::query();
+            $query = $this->user::query();
 
             return Datatables::of($query)
                         ->addColumn('action', function($item){
@@ -27,8 +27,8 @@ class CategoryController extends Controller
                                     <div class="dropdown">
                                         <button class="btn btn-primary dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">Aksi</button>
                                         <div class="dropdown-menu">
-                                            <a href="' .route('Category.edit', $item->id). '" class="dropdown-item">Edit</a>
-                                            <form action="' .route('Category.destroy', $item->id). '" method="POST>
+                                            <a href="' .route('User.edit', $item->id). '" class="dropdown-item">Edit</a>
+                                            <form action="' .route('User.destroy', $item->id). '" method="POST>
                                                 ' .method_field('delete') . csrf_field(). '
                                                 <button type="submit" class="dropdown-item text-danger">Hapus</button>
                                             </form>
@@ -37,33 +37,36 @@ class CategoryController extends Controller
                                 </div>
                             ';
                         })
-                        ->editColumn('photo', function($item){
-                            return $item->photo ? '<img src="' .Storage::url($item->photo). '" style="max-height: 2.4em"/>' : '';
+                        ->addColumn('role', function($item){
+                            return $this->role::find($item->id)->role;
                         })
-                        ->rawColumns(['action', 'photo'])
+                        ->rawColumns(['action', 'role'])
                         ->addIndexColumn()
                         ->make();
         }
 
-        return view('pages.server.category.index');
+        return view('pages.server.user.index');
     }
 
     public function create()
     {
-        return view('pages.server.category.create');
+        return view('pages.server.user.create', [
+            'roles' => $this->role::all(),
+        ]);
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'category'  => 'required|unique:categories,category',
-            'photo'     => 'required|image|file|max:2048',
+            'nama'      => 'required|string',
+            'email'     => 'required|unique:users,email|email',
+            'password'  => 'required',
+            'role_id'   => 'required',
         ]);
-        
-        $data['slug'] = Str::slug($request->category);
-        $data['photo'] = $request->file('photo')->store('category-images', 'public');
 
-        $this->category::create($data);
+        $data['password'] = bcrypt($request->password);
+
+        $this->user::create($data);
 
         return redirect()->route($this->index_route);
     }
@@ -71,47 +74,61 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Category  $category
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
         //
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
-        $item = $this->category::findOrFail($id);
+        $user = $this->user::findOrFail($id);
 
-        return view('pages.server.category.edit',[
-            'item' => $item,
+        return view('pages.server.user.edit',[
+            'user' => $user,
+            'roles' => $this->role::all(),
         ]);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'category'  => 'required|unique:categories,category,' .$id,
-            'photo'     => 'image|file|max:2048',
+            'nama'      => 'required|string',
+            'email'     => 'required|email|unique:users,email,' .$id,
+            'role_id'   => 'required',
         ]);
         
-        $item = $this->category::findOrFail($id);
+        $item = $this->user::findOrFail($id);
         
-        if($request->photo){
-            Storage::disk('public')->delete($item->photo);
-            $data['photo'] = $request->file('photo')->store('category-images', 'public');
-        }
-        
-        $data['slug'] = Str::slug($request->category);
-
         $item->update($data);
 
         return redirect()->route($this->index_route);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
-    {
-        $this->category::findOrFail($id)->delete();
+    {dd($id);
+        $this->user::findOrFail($id)->delete();
         
         return redirect()->route($this->index_route);
     }

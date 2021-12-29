@@ -8,6 +8,11 @@
     {{-- css --}}
     @stack('prepend-style')
     @include('template.server._style')
+    <style>
+        .admin-logo {
+            width: 120px;
+        }
+    </style>
     @stack('addon-style')
   </head>
 

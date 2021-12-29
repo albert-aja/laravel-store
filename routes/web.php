@@ -50,6 +50,7 @@ Route::get('/Account', [AccountController::class, 'index'])->name('account');
 Route::prefix('Admin')->namespace('Admin')->group(function(){
     Route::get('/', [adminDashboard::class, 'index'])->name('admin-dashboard');
     Route::resource('Category', '\App\Http\Controllers\Admin\CategoryController');
+    Route::resource('User', '\App\Http\Controllers\Admin\UserController');
 });
 
 // ->middleware(['auth','admin'])
