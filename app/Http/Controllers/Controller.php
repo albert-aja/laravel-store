@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
-
+use App\Models\Role;
 use App\Models\User;
+use App\Models\Product;
 use App\Models\Category;
 use App\Models\Transaction;
-use App\Models\Role;
+
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Controller extends BaseController
 {
@@ -18,6 +19,7 @@ class Controller extends BaseController
 
     protected $user         = User::class;
     protected $category     = Category::class;
+    protected $product      = Product::class;
     protected $transaction  = Transaction::class;
     protected $role         = Role::class;
 }

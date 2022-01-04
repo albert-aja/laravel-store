@@ -28,7 +28,7 @@ class CategoryController extends Controller
                                         <button class="btn btn-primary dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">Aksi</button>
                                         <div class="dropdown-menu">
                                             <a href="' .route('Category.edit', $item->id). '" class="dropdown-item">Edit</a>
-                                            <form action="' .route('Category.destroy', $item->id). '" method="POST>
+                                            <form action="' .route('Category.destroy', $item->id). '" method="POST">
                                                 ' .method_field('delete') . csrf_field(). '
                                                 <button type="submit" class="dropdown-item text-danger">Hapus</button>
                                             </form>

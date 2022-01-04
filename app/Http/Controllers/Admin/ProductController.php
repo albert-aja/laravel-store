@@ -4,20 +4,21 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class UserController extends Controller
+class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->index_route = 'User.index';
+        $this->index_route = 'Product.index';
     }
 
     public function index()
     {
         if(request()->ajax()){
-            $query = $this->user::query();
-
+            $query = $this->product::with(['user', 'category']);
+            
             return Datatables::of($query)
                         ->addColumn('action', function($item){
                             return '
@@ -25,8 +26,8 @@ class UserController extends Controller
                                     <div class="dropdown">
                                         <button class="btn btn-primary dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">Aksi</button>
                                         <div class="dropdown-menu">
-                                            <a href="' .route('User.edit', $item->id). '" class="dropdown-item">Edit</a>
-                                            <form action="' .route('User.destroy', $item->id). '" method="POST">
+                                            <a href="' .route('Product.edit', $item->id). '" class="dropdown-item">Edit</a>
+                                            <form action="' .route('Product.destroy', $item->id). '" method="POST">
                                                 ' .method_field('delete') . csrf_field(). '
                                                 <button type="submit" class="dropdown-item text-danger">Hapus</button>
                                             </form>
@@ -35,46 +36,39 @@ class UserController extends Controller
                                 </div>
                             ';
                         })
-                        ->addColumn('role', function($item){
-                            return $this->role::find($item->role_id)->role;
-                        })
-                        ->rawColumns(['action', 'role'])
+                        ->rawColumns(['action'])
                         ->addIndexColumn()
                         ->make();
         }
 
-        return view('pages.server.user.index');
+        return view('pages.server.product.index');
     }
 
     public function create()
     {
-        return view('pages.server.user.create', [
-            'roles' => $this->role::all(),
+        return view('pages.server.product.create', [
+            'users'      => $this->user::all(),
+            'categories' => $this->category::all(),
         ]);
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'nama'      => 'required|string',
-            'email'     => 'required|unique:users,email|email',
-            'password'  => 'required',
-            'role_id'   => 'required',
+            'product_name'  => 'required|string|max:255',
+            'users_id'      => 'required|exists:users,id',
+            'categories_id' => 'required|exists:categories,id',
+            'price'         => 'required|integer',
+            'description'   => 'required',
         ]);
 
-        $data['password'] = bcrypt($request->password);
+        $data['slug'] = Str::slug($request->product_name);
 
-        $this->user::create($data);
+        $this->product::create($data);
 
         return redirect()->route($this->index_route);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
@@ -113,7 +107,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $this->user::findOrFail($id)->delete();
+        $this->product::findOrFail($id)->delete();
         
         return redirect()->route($this->index_route);
     }

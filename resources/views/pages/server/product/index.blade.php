@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Admin - User Page
+    Admin - Product Page
 @endsection
 
 @push('addon-style')
@@ -17,23 +17,26 @@
 <div class="section-content section-dashboard-home" data-aos="fade-up">
     <div class="container-fluid">
         <div class="dashboard-heading">
-            <h2 class="dashboard-title">User</h2>
-            <p class="dashboard-subtitle">List of Users</p>
+            <h2 class="dashboard-title">Product</h2>
+            <p class="dashboard-subtitle">List of Products</p>
         </div>
         <div class="dashboard-content">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <a href="{{ route('User.create') }}" class="btn btn-primary mb-3">Tambah User</a>
+                            <a href="{{ route('Product.create') }}" class="btn btn-primary mb-3">Tambah Produk</a>
                             <div class="table-responsive">
                                 <table class="table table-hover scroll-horizontal-vertical w-100" id="crudTable">
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Nama</th>
-                                            <th>Email</th>
-                                            <th>Roles</th>
+                                            <th>Produk</th>
+                                            <th>Slug</th>
+                                            <th>Pemilik</th>
+                                            <th>Kategori</th>
+                                            <th>Harga</th>
+                                            <th>Deskripsi</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -64,9 +67,12 @@
                     orderable: false, 
                     searchable: false
                 },
-                {data: 'name', name: 'name'},
-                {data: 'email', name: 'email'},
-                {data: 'role', name: 'role'},
+                {data: 'product_name', name: 'product_name'},
+                {data: 'slug', name: 'slug'},
+                {data: 'user.name', name: 'user.name'},
+                {data: 'category.category', name: 'category.category'},
+                {data: 'price', name: 'price'},
+                {data: 'description', name: 'description'},
                 {
                     data: 'action', 
                     name: 'action',

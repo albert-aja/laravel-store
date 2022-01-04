@@ -22,8 +22,8 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Nama User</label>
-                                            <input type="text" name="nama" class="form-control mt-2 @error('nama') is-invalid @enderror" placeholder="Nama User" value="{{ old('nama') }}" required>
-                                            @error('nama')
+                                            <input type="text" name="name" class="form-control mt-2 @error('name') is-invalid @enderror" placeholder="Nama User" value="{{ old('name') }}" required>
+                                            @error('name')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
