@@ -45,11 +45,11 @@
                                     <div class="col-md-12 mt-3">
                                         <div class="form-group">
                                             <label>Role</label>
-                                            <select name="role_id" class="form-control mt-2 @error('roles') is-invalid @enderror" required>
-                                                <option disaled selected>--- Role ---</option>
+                                            <select name="roles_id" class="form-control mt-2 @error('roles') is-invalid @enderror" required>
+                                                <option disabled selected>--- Role ---</option>
                                                 @foreach ($roles as $role)
                                                 <option value="{{ $role->id }}"
-                                                @if (old('role_id', $user->role->id) == $role->id)
+                                                @if (old('roles_id', $user->role->id) == $role->id)
                                                     selected
                                                 @endif>
                                                     {{ $role->role }}

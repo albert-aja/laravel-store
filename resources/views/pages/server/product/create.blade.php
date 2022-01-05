@@ -34,13 +34,13 @@
                                         <div class="form-group">
                                             <label>Pemilik Produk</label>
                                             <select name="users_id" class="form-control mt-2 @error('users') is-invalid @enderror" required>
-                                                <option disaled selected>--- User ---</option>
+                                                <option disabled selected>--- User ---</option>
                                                 @foreach ($users as $user)
                                                 <option value="{{ $user->id }}"
                                                 @if (old('users_id') == $user->id)
                                                     selected
                                                 @endif>
-                                                    {{ $user->nama }}
+                                                    {{ $user->name }}
                                                 </option>
                                                 @endforeach
                                             </select>
@@ -55,7 +55,7 @@
                                         <div class="form-group">
                                             <label>Kategori</label>
                                             <select name="categories_id" class="form-control mt-2 @error('categories') is-invalid @enderror" required>
-                                                <option disaled selected>--- Kategori ---</option>
+                                                <option disabled selected>--- Kategori ---</option>
                                                 @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}"
                                                 @if (old('categories_id') == $category->id)
@@ -86,7 +86,7 @@
                                     <div class="col-md-12 mt-3">
                                         <div class="form-group">
                                             <label>Deskripsi</label>
-                                            <textarea name="description" id="editor" class="form-control mt-2 @error('description') is-invalid @enderror" placeholder="Deskripsi" value="{{ old('description') }}" required></textarea>
+                                            <textarea name="description" id="editor" class="form-control mt-2 @error('description') is-invalid @enderror" placeholder="Deskripsi" required>{{ old('description') }}</textarea>
                                             @error('description')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col text-end">
-                                        <a href="{{ route('Category.index') }}" class="btn btn-secondary px-5 mt-4">
+                                        <a href="{{ route('Product.index') }}" class="btn btn-secondary px-5 mt-4">
                                             Back
                                         </a>
                                         <button type="submit" class="btn btn-success px-5 mt-4">

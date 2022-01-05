@@ -82,23 +82,28 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $user = $this->user::findOrFail($id);
+        $item = $this->product::findOrFail($id);
 
-        return view('pages.server.user.edit',[
-            'user' => $user,
-            'roles' => $this->role::all(),
+        return view('pages.server.product.edit',[
+            'item'       => $item,
+            'users'      => $this->user::all(),
+            'categories' => $this->category::all(),
         ]);
     }
 
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'nama'      => 'required|string',
-            'email'     => 'required|email|unique:users,email,' .$id,
-            'role_id'   => 'required',
+            'product_name'  => 'required|string|max:255',
+            'users_id'      => 'required|exists:users,id',
+            'categories_id' => 'required|exists:categories,id',
+            'price'         => 'required|integer',
+            'description'   => 'required',
         ]);
+
+        $data['slug'] = Str::slug($request->product_name);
         
-        $item = $this->user::findOrFail($id);
+        $item = $this->product::findOrFail($id);
         
         $item->update($data);
 

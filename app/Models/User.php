@@ -20,7 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password', 'address_one', 'address_two',
         'province_id', 'regency_id', 'zip_code', 'country', 'phone',
-        'store_name', 'category_id', 'store_status', 'role_id'
+        'store_name', 'category_id', 'store_status', 'roles_id'
     ];
 
     /**
@@ -43,6 +43,6 @@ class User extends Authenticatable
     ];
 
     public function role(){
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'roles_id', 'id');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\ProductGallery;
 use App\Models\Category;
 use App\Models\Transaction;
 
@@ -20,6 +21,7 @@ class Controller extends BaseController
     protected $user         = User::class;
     protected $category     = Category::class;
     protected $product      = Product::class;
+    protected $gallery      = ProductGallery::class;
     protected $transaction  = Transaction::class;
     protected $role         = Role::class;
 }

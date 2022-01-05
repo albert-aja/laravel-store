@@ -52,6 +52,7 @@ Route::prefix('Admin')->namespace('Admin')->group(function(){
     Route::resource('Category', '\App\Http\Controllers\Admin\CategoryController');
     Route::resource('User', '\App\Http\Controllers\Admin\UserController');
     Route::resource('Product', '\App\Http\Controllers\Admin\ProductController');
+    Route::resource('Gallery', '\App\Http\Controllers\Admin\ProductGalleryController');
 });
 
 // ->middleware(['auth','admin'])

@@ -4,19 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
-class UserController extends Controller
+class ProductGalleryController extends Controller
 {
     public function __construct()
     {
-        $this->index_route = 'User.index';
+        $this->index_route = 'Gallery.index';
     }
 
     public function index()
     {
         if(request()->ajax()){
-            $query = $this->user::with(['role']);
+            $query = $this->gallery::with(['product']);
 
             return Datatables::of($query)
                         ->addColumn('action', function($item){
@@ -25,8 +26,7 @@ class UserController extends Controller
                                     <div class="dropdown">
                                         <button class="btn btn-primary dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">Aksi</button>
                                         <div class="dropdown-menu">
-                                            <a href="' .route('User.edit', $item->id). '" class="dropdown-item">Edit</a>
-                                            <form action="' .route('User.destroy', $item->id). '" method="POST">
+                                            <form action="' .route('Gallery.destroy', $item->id). '" method="POST">
                                                 ' .method_field('delete') . csrf_field(). '
                                                 <button type="submit" class="dropdown-item text-danger">Hapus</button>
                                             </form>
@@ -35,33 +35,34 @@ class UserController extends Controller
                                 </div>
                             ';
                         })
-                        ->rawColumns(['action'])
+                        ->editColumn('photo', function($item){
+                            return $item->photo ? '<img src="' .Storage::url($item->photo). '" style="max-height: 5em"/>' : '';
+                        })
+                        ->rawColumns(['action', 'photo'])
                         ->addIndexColumn()
                         ->make();
         }
 
-        return view('pages.server.user.index');
+        return view('pages.server.product_gallery.index');
     }
 
     public function create()
     {
-        return view('pages.server.user.create', [
-            'roles' => $this->role::all(),
+        return view('pages.server.product_gallery.create', [
+            'products' =>$this->product::all(),
         ]);
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'      => 'required|string',
-            'email'     => 'required|unique:users,email|email',
-            'password'  => 'required',
-            'roles_id'   => 'required',
+            'products_id'   => 'required|exists:products,id',
+            'photo'         => 'required|image|file|max:2048',
         ]);
+        
+        $data['photo'] = $request->file('photo')->store('product-images', 'public');
 
-        $data['password'] = bcrypt($request->password);
-
-        $this->user::create($data);
+        $this->gallery::create($data);
 
         return redirect()->route($this->index_route);
     }
@@ -69,48 +70,27 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $user = $this->user::findOrFail($id);
-
-        return view('pages.server.user.edit',[
-            'user' => $user,
-            'roles' => $this->role::all(),
-        ]);
+        //
     }
 
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
-            'nama'      => 'required|string',
-            'email'     => 'required|email|unique:users,email,' .$id,
-            'role_id'   => 'required',
-        ]);
-        
-        $item = $this->user::findOrFail($id);
-        
-        $item->update($data);
-
-        return redirect()->route($this->index_route);
+        //
     }
 
     public function destroy($id)
     {
-        $this->user::findOrFail($id)->delete();
+        $this->gallery::findOrFail($id)->delete();
         
         return redirect()->route($this->index_route);
     }
