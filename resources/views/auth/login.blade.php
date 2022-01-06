@@ -11,17 +11,28 @@
                 </div>
                 <div class="col-lg-5">
                     <h2> Belanja kebutuhan utama,<br /> menjadi lebih mudah</h2>
-                    <form action="" class="mt-3">
+                    <form action="{{ route('login') }}" method="POST" class="mt-3">
+                        @csrf
                         <div class="form-group mb-3">
                             <label for="">Email Address</label>
-                            <input type="email" class="form-control w-75" />
+                            <input type="email" id="email" class="form-control w-75 @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}">
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="form-group mb-3">
                             <label for="">Password</label>
-                            <input type="password" class="form-control w-75" />
+                            <input type="password" class="form-control w-75 @error('password') is-invalid  @enderror" name="password">
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
-                        <a href="/dashboard.html" class="btn btn-success d-block w-75 mt-4">Sign In to My Account</a>
-                        <a href="/register.html" class="btn btn-signup d-block w-75 mt-2">Sign Up</a>
+                        <button type="submit" class="btn btn-success d-block w-75 mt-4">Sign In to My Account</button>
+                        <a href="{{ route('register') }}" class="btn btn-signup d-block w-75 mt-2">Sign Up</a>
                     </form>
                 </div>
             </div>

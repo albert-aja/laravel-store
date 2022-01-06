@@ -90,6 +90,7 @@ class ProductGalleryController extends Controller
 
     public function destroy($id)
     {
+        Storage::disk('public')->delete($this->gallery::find($id)->photo);
         $this->gallery::findOrFail($id)->delete();
         
         return redirect()->route($this->index_route);

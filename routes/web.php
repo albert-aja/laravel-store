@@ -30,8 +30,9 @@ use App\Http\Controllers\Admin\DashboardController as adminDashboard;
 //user
 //home
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/Category', [userCategory::class, 'index'])->name('category');
-Route::get('/Detail/{id}', [DetailController::class, 'index'])->name('detail');
+Route::get('/Category', [userCategory::class, 'index'])->name('categories');
+Route::get('/Category/{slug}', [userCategory::class, 'detail'])->name('category-detail');
+Route::get('/Detail/{slug}', [DetailController::class, 'index'])->name('detail');
 Route::get('/Cart', [CartController::class, 'index'])->name('cart');
 Route::get('/Success', [CartController::class, 'success'])->name('success');
 

@@ -23,6 +23,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('pages.client.marketplace.home');
+        return view('pages.client.marketplace.home', [
+            'categories' => $this->category::take(6)->get(),
+            'products' => $this->product::with(['galleries'])->take(8)->get(),
+        ]);
     }
 }
