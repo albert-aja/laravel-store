@@ -59,3 +59,5 @@
         </div>
     </div>
 </nav>
+
+<form action="{{ route('logout') }}" id="logout-form" method="POST" class="d-none">@csrf</form>

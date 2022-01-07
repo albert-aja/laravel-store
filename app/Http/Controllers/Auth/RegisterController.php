@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -41,6 +42,13 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        return view('auth.register',[
+            'categories' => $this->category::all()
+        ]);
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -50,9 +58,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name'          => ['required', 'string', 'max:255'],
+            'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'      => ['required', 'string', 'min:8', 'confirmed'],
+            'store_name'    => ['nullable', 'string', 'max:255'],
+            'categories_id' => ['nullable', 'integer', 'exists:categories,id'],
+            'is_store_open' => ['required'],
         ]);
     }
 
@@ -64,14 +75,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+        return $this->user::create([
+            'name'          => $data['name'],
+            'email'         => $data['email'],
+            'password'      => Hash::make($data['password']),
+            'store_name'    => isset($data['store_name']) ? $data['store_name'] : NULL,
+            'categories_id' => isset($data['categories_id']) ? $data['categories_id'] : NULL,
+            'store_status'  => isset($data['store_name']) ? 1 : 0,
+            'roles_id'      => 2
         ]);
     }
 
     public function registerSuccess(){
         return view('auth.success');
+    }
+
+    public function check(Request $request){
+        return $this->user::where('email', $request->email)->count() > 0 ? "Unavailable" : "Available";
     }
 }

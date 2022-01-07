@@ -1,23 +1,27 @@
 body {
-  font-family: "Poppins", sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .page-content {
-  margin-top: 6em;
+    margin-top: 6em;
+}
+
+.navbar-expand-lg .navbar-nav {
+    align-items: center;
 }
 
 footer {
-  border-top: 1px solid #e4e4e4;
-  margin-top: 1em;
-  p {
-    color: #979797;
-  }
+    border-top: 1px solid #e4e4e4;
+    margin-top: 1em;
+    p {
+        color: #979797;
+    }
 }
 
 .form-control {
-  background-color: #f3f3f3;
+    background-color: #f3f3f3;
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
 }

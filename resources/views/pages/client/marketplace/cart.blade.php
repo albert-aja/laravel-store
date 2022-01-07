@@ -32,75 +32,51 @@
           <div class="row" data-aos="fade-up" data-aos-delay="100">
             <div class="col-12 table-responsive">
               <table class="table table-borderless table-cart">
-                <thead>
-                  <tr>
-                    <td>Image</td>
-                    <td>Name &amp; Seller</td>
-                    <td>Price</td>
-                    <td>Menu</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td style="width: 20%">
-                      <img
-                        src="/images/product-cart-1.jpg"
-                        alt=""
-                        class="cart-image"
-                      />
-                    </td>
-                    <td style="width: 35%">
-                      <div class="product-title">Sofa Ternyaman</div>
-                      <div class="product-subtitle">by Andi Dian</div>
-                    </td>
-                    <td style="width: 35%">
-                      <div class="product-title">$ 1,499</div>
-                      <div class="product-subtitle">USD</div>
-                    </td>
-                    <td style="width: 20%">
-                      <a href="#" class="btn btn-remove-cart">Remove</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 20%">
-                      <img
-                        src="/images/product-cart-2.jpg"
-                        alt=""
-                        class="cart-image"
-                      />
-                    </td>
-                    <td style="width: 35%">
-                      <div class="product-title">Sneakers</div>
-                      <div class="product-subtitle">by Andi Dian</div>
-                    </td>
-                    <td style="width: 35%">
-                      <div class="product-title">$ 1,499</div>
-                      <div class="product-subtitle">USD</div>
-                    </td>
-                    <td style="width: 20%">
-                      <a href="#" class="btn btn-remove-cart">Remove</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 20%">
-                      <img
-                        src="/images/product-cart-3.jpg"
-                        alt=""
-                        class="cart-image"
-                      />
-                    </td>
-                    <td style="width: 35%">
-                      <div class="product-title">Coffee Holder</div>
-                      <div class="product-subtitle">by Andi Dian</div>
-                    </td>
-                    <td style="width: 35%">
-                      <div class="product-title">$ 1,499</div>
-                      <div class="product-subtitle">USD</div>
-                    </td>
-                    <td style="width: 20%">
-                      <a href="#" class="btn btn-remove-cart">Remove</a>
-                    </td>
-                  </tr>
+              <thead>
+                <tr>
+                  <td>Image</td>
+                  <td>Name &amp; Seller</td>
+                  <td>Price</td>
+                  <td>Menu</td>
+                </tr>
+              </thead>
+              <tbody>
+              @if (count($carts))
+                @foreach ($carts as $cart)
+                <tr>
+                  <td style="width: 20%">
+                    <img
+                      src="{{ ($cart->product->galleries->count()) ? Storage::url($cart->product->galleries->first()->photo) : Storage::url('product-placeholder.png') }}"
+                      alt="{{ $cart->product->product_name }}"
+                      class="cart-image"
+                    />
+                  </td>
+                  <td style="width: 35%">
+                    <div class="product-title">{{ $cart->product->product_name }}</div>
+                    <div class="product-subtitle">by {{ $cart->user->store_name }}</div>
+                  </td>
+                  <td style="width: 35%">
+                    <div class="product-title">{{ convertRupiah($cart->product->price) }}</div>
+                    <div class="product-subtitle">IDR</div>
+                  </td>
+                  <td style="width: 20%">
+                    <form action="{{ route('cart-delete', $cart->id) }}" method="POST">
+                    @method('DELETE')
+                    @csrf
+                      <button type="submit" class="btn btn-remove-cart">
+                        Remove
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                @endforeach
+                @else
+                <tr>
+                  <td>
+                    <h2>Cart Empty</h2>
+                  </td>
+                </tr>
+                @endif
                 </tbody>
               </table>
             </div>

@@ -33,7 +33,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/Category', [userCategory::class, 'index'])->name('categories');
 Route::get('/Category/{slug}', [userCategory::class, 'detail'])->name('category-detail');
 Route::get('/Detail/{slug}', [DetailController::class, 'index'])->name('detail');
+Route::post('/Detail/{id}', [DetailController::class, 'add'])->name('detail-add');
 Route::get('/Cart', [CartController::class, 'index'])->name('cart');
+Route::delete('/Cart/{id}', [CartController::class, 'delete'])->name('cart-delete');
 Route::get('/Success', [CartController::class, 'success'])->name('success');
 
 //dashboard

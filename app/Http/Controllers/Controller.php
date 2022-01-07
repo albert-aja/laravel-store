@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\ProductGallery;
 use App\Models\Category;
+use App\Models\Cart;
 use App\Models\Transaction;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -24,4 +25,5 @@ class Controller extends BaseController
     protected $gallery      = ProductGallery::class;
     protected $transaction  = Transaction::class;
     protected $role         = Role::class;
+    protected $cart         = Cart::class;
 }

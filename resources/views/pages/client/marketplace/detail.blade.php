@@ -68,16 +68,19 @@
           <div class="container">
             <div class="row">
               <div class="col-lg-8">
-                <h1>Sofa Ternyaman</h1>
-                <div class="owner">By Albert</div>
-                <div class="price">$ 1,499</div>
+                <h1>{{ $product->product_name }}</h1>
+                <div class="owner">By {{ $product->user->store_name }}</div>
+                <div class="price">{{ convertRupiah($product->price) }}</div>
               </div>
               <div class="col-lg-2" data-aos="zoom-in">
-                <a
-                  href="cart.html"
-                  class="btn btn-success px-4 text-white btn-block mb-3"
-                  >Add to Cart</a
-                >
+                @auth
+                <form action="{{ route('detail-add', $product->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                  <button class="btn btn-success px-4 text-white btn-block mb-3">Add to Cart</button>
+                </form>
+                @else
+                <a href="{{ route('login') }}" class="btn btn-success px-4 text-white btn-block mb-3">Sign In to Add</a>
+                @endauth
               </div>
             </div>
           </div>
@@ -87,22 +90,7 @@
           <div class="container">
             <div class="row">
               <div class="col-12 col-lg-8">
-                <p>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Deleniti inventore assumenda labore modi, dolorum nihil
-                  voluptate nesciunt officiis accusamus, aut dolore, voluptatem
-                  iure autem! Dolore molestiae quaerat magni expedita
-                  aspernatur.
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Incidunt aspernatur sunt ratione laborum officia eligendi,
-                  deserunt dolorum consectetur, numquam corrupti illo sint sequi
-                  optio voluptate qui facilis! Cumque blanditiis, sint sunt
-                  accusamus dolores omnis ipsa similique? Illum aut deleniti
-                  nostrum voluptates eveniet odit rerum. Quasi eum
-                  exercitationem necessitatibus eligendi rem.
-                </p>
+                {!! $product->description !!}
               </div>
             </div>
           </div>
@@ -183,22 +171,12 @@
         data: {
           activePhoto: 0,
           photo: [
+            @foreach ($product->galleries as $photo)
             {
-              id: 1,
-              url: "/images/product-details-1.jpg",
+              id: {{ $photo->id }},
+              url: "{{ Storage::url($photo->photo) }}",
             },
-            {
-              id: 2,
-              url: "/images/product-details-2.jpg",
-            },
-            {
-              id: 3,
-              url: "/images/product-details-3.jpg",
-            },
-            {
-              id: 4,
-              url: "/images/product-details-4.jpg",
-            },
+            @endforeach
           ],
         },
         methods: {
