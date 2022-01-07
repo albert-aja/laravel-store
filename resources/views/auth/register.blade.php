@@ -105,31 +105,30 @@
             checkAvailability: function(){
                 var self = this;
                 axios.get('{{ route('api-register-check') }}', {
-                        params: {
-                            email: this.email
-                        }
-                    })
-                    .then(function (response) {
-                        if(response.data == 'Available') {
-                            self.$toasted.show(
-                                "Email anda tersedia! Silahkan lanjut langkah selanjutnya!", {
-                                    position: "top-center",
-                                    className: "rounded",
-                                    duration: 1000,
-                                }
-                            );
-                            self.email_unavailable = false;
-                        } else {
-                            self.$toasted.error(
-                                "Maaf, tampaknya email sudah terdaftar pada sistem kami.", {
-                                    position: "top-center",
-                                    className: "rounded",
-                                    duration: 1000,
-                                }
-                            );
-                            self.email_unavailable = true;
-                        }
-                    })
+                    params: {
+                        email: this.email
+                    }
+                }).then(function (response) {
+                    if(response.data == 'Available') {
+                        self.$toasted.show(
+                            "Email anda tersedia! Silahkan lanjut langkah selanjutnya!", {
+                                position: "top-center",
+                                className: "rounded",
+                                duration: 1000,
+                            }
+                        );
+                        self.email_unavailable = false;
+                    } else {
+                        self.$toasted.error(
+                            "Maaf, tampaknya email sudah terdaftar pada sistem kami.", {
+                                position: "top-center",
+                                className: "rounded",
+                                duration: 1000,
+                            }
+                        );
+                        self.email_unavailable = true;
+                    }
+                })
             }
         },
         data() {
