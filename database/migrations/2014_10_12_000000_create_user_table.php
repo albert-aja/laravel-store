@@ -21,14 +21,15 @@ class CreateUserTable extends Migration
             $table->string('password');
             $table->string('address_one')->nullable();
             $table->string('address_two')->nullable();
-            $table->integer('province_id')->nullable();
-            $table->integer('regency_id')->nullable();
+            $table->integer('provinces_id')->nullable();
+            $table->integer('regencies_id')->nullable();
             $table->integer('zip_code')->nullable();
             $table->string('country')->nullable();
             $table->string('phone')->nullable();
             $table->string('store_name')->nullable();
-            $table->integer('category_id')->nullable();
+            $table->integer('categories_id')->nullable();
             $table->boolean('store_status')->nullable();
+            $table->integer('roles_id');
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

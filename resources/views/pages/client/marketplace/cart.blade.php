@@ -91,7 +91,9 @@
               <h2 class="mb-4">Shipping Details</h2>
             </div>
           </div>
-          <form action="" method="POST" id="formWithLocation">
+          <form action="{{ route('checkout') }}" method="POST" id="formWithLocation">
+          @csrf
+            <input type="hidden" name="total_price" value="{{ $total_price }}">
             <div class="row mb-2" data-aos="fade-up" data-aos-delay="200">
               <div class="col-md-6">
                 <div class="form-group">
@@ -177,15 +179,15 @@
             </div>
             <div class="row" data-aos="fade-up" data-aos-delay="200">
               <div class="col-4 col-md-2">
-                <div class="product-title">$10</div>
+                <div class="product-title">$0</div>
                 <div class="product-subtitle">Country Tax</div>
               </div>
               <div class="col-4 col-md-3">
-                <div class="product-title">$280</div>
+                <div class="product-title">$0</div>
                 <div class="product-subtitle">Product Insurance</div>
               </div>
               <div class="col-4 col-md-2">
-                <div class="product-title">$580</div>
+                <div class="product-title">$0</div>
                 <div class="product-subtitle">Ship to Jakarta</div>
               </div>
               <div class="col-4 col-md-2">
@@ -193,9 +195,9 @@
                 <div class="product-subtitle">Total</div>
               </div>
               <div class="col-8 col-md-3">
-                <a href="/success.html" class="btn btn-success mt-4 px-4 d-block"
-                  >Checkout Now</a
-                >
+                <button type="submit" class="btn btn-success mt-4 px-4 d-block">
+                  Checkout Now
+                </button>
               </div>
             </div>
           </form>
