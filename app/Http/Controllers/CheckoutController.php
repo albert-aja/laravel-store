@@ -9,9 +9,18 @@ use Exception;
 
 use Midtrans\Config;
 use Midtrans\Snap;
+use Midtrans\Notification;
 
 class CheckoutController extends Controller
 {
+    public function __construct(){        
+        //CONFIG MIDTRANS
+        Config::$serverKey      = config('services.midtrans.serverKey');
+        Config::$isProduction   = config('services.midtrans.isProduction');
+        Config::$isSanitized    = config('services.midtrans.isSanitized');
+        Config::$is3ds          = config('services.midtrans.is3ds');
+    }
+
     public function process(Request $request){
         //DATA 2 DB
         $user = Auth::user();
@@ -45,12 +54,6 @@ class CheckoutController extends Controller
 
         $this->cart::where('users_id', Auth::user()->id)->delete();
         
-        //CONFIG MIDTRANS
-        Config::$serverKey = config('services.midtrans.serverKey');
-        Config::$isProduction = config('services.midtrans.isProduction');
-        Config::$isSanitized = config('services.midtrans.isSanitized');
-        Config::$is3ds = config('services.midtrans.is3ds');
-
         //DATA 2 MIDTRANS
         $midtrans = [
             'transaction_details' => [
@@ -76,6 +79,36 @@ class CheckoutController extends Controller
     }
 
     public function callback(Request $request){
-        
+        $notification = new Notification();
+
+        $status = $notification->transaction_status;
+        $type = $notification->payment_type;
+        $fraud = $notification->fraud_status;
+        $order_id = $notification->order_id;
+
+        $transaction = $this->transaction::findOrFail($order_id);
+
+        //handle notification status
+        if($status == 'capture'){
+            if($type == 'credit_card'){
+                if($fraud == 'challenge'){
+                    $transaction->status = 'PENDING';
+                } else {
+                    $transaction->status = 'SUCCESS';
+                }
+            }
+        } else if($status == 'settlement'){
+            $transaction->status = 'SUCCESS';
+        } else if($status == 'pending'){
+            $transaction->status = 'PENDING';
+        } else if($status == 'deny'){
+            $transaction->status = 'CANCELLED';
+        } else if($status == 'expired'){
+            $transaction->status = 'CANCELLED';
+        } else if($status == 'cancel'){
+            $transaction->status = 'CANCELLED';
+        }
+
+        $transaction->save();
     }
 }

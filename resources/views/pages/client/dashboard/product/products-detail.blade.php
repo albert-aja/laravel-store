@@ -29,7 +29,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label>Price</label>
-                      <input type="number" name="harga" class="form-control @error('product_name') is-invalid @enderror" placeholder="Harga Produk" value="{{ old('price', $product->price) }}" required/>
+                      <input type="number" name="price" class="form-control @error('product_name') is-invalid @enderror" placeholder="Harga Produk" value="{{ old('price', $product->price) }}" required/>
                     </div>
                   </div>
                   <div class="col-md-12 mt-3">
@@ -82,19 +82,25 @@
           <div class="card">
             <div class="card-body">
               <div class="row">
+                @foreach ($product->galleries as $photo)
                 <div class="col-md-4 sticky-top">
                   <div class="gallery-container">
-                    <img src="{{ ($product->galleries->count()) ? Storage::url($product->galleries->first()->photo) : Storage::url('product-placeholder.png') }}" alt="{{ $product->product_name }}" class="w-100"/>
-                    <a href="#" class="delete-gallery">
+                    <img src="{{ Storage::url($photo->photo) }}" alt="{{ $product->product_name }}" class="w-100"/>
+                    <a href="{{ route('delete-product-image', $photo->id) }}" class="delete-gallery">
                       <img src="/images/icon-delete.svg"/>
                     </a>
                   </div>
                 </div>
+                @endforeach
                 <div class="col-12">
-                  <input type="file" id="file" class="d-none" multiple/>
-                  <button class="btn btn-secondary w-100 mt-3" onclick="fileUpload()">
-                    Add Photo
-                  </button>
+                  <form action="{{ route('upload-product-image') }}" method="POST" enctype="multipart/form-data">
+                  @csrf
+                    <input type="hidden" name="products_id" value="{{ $product->id }}">
+                    <input type="file" id="file" name="photo" class="d-none" onchange="form.submit()"/>
+                    <button type="button" class="btn btn-secondary w-100 mt-3" onclick="fileUpload()">
+                      Add Photo
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>

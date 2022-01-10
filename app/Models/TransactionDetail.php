@@ -8,7 +8,7 @@ class TransactionDetail extends Model
 {
     protected $fillable = [
         'transactions_id', 'code', 'resi',
-        'products_id', 'price', 'shipping_status'
+        'products_id', 'price', 'transaction_status_id'
     ];
 
     public function product(){
@@ -17,5 +17,9 @@ class TransactionDetail extends Model
     
     public function transaction(){
         return $this->hasOne(Transaction::class, 'id', 'transactions_id');
+    }
+
+    public function transactionStatus(){
+        return $this->hasOne(TransactionStatus::class, 'id', 'transaction_status_id');
     }
 }

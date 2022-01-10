@@ -35,14 +35,15 @@ class ProductController extends Controller
 
         $this->gallery::create($data);
 
-        return redirect()->route('productDetail', $request->id);
+        return redirect()->route('productDetail', $request->products_id);
     }
 
     public function deleteImage($id){
         Storage::disk('public')->delete($this->gallery::find($id)->photo);
-        $this->gallery::findOrFail($id)->delete();
-        
-        return redirect()->route('productDetail', $id);
+        $item = $this->gallery::findOrFail($id);
+        $item->delete();
+
+        return redirect()->route('productDetail', $item->products_id);
     }
 
     public function create(){

@@ -12,7 +12,6 @@ use App\Http\Controllers\DashboardController as userDashboard;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\SettingController;
-use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CheckoutController;
 
 use App\Http\Controllers\Admin\DashboardController as adminDashboard;
@@ -59,11 +58,15 @@ Route::group(['middleware' => ['auth']], function(){
             ->name('delete-product-image');
 
     Route::get('/Dashboard/Transactions', [TransactionController::class, 'index'])->name('transactions');
-    Route::get('/Dashboard/TransactionDetail/{id}', [TransactionController::class, 'transactionDetail'])
-                ->name('transactionDetail');
+    Route::get('/Dashboard/Transactions/{id}', [TransactionController::class, 'details'])
+            ->name('transactionDetail');
+    Route::post('/Dashboard/Transactions/{id}', [TransactionController::class, 'update'])
+            ->name('transactionUpdate');
 
-    Route::get('/Dashboard/Setting', [SettingController::class, 'index'])->name('setting');
-    Route::get('/Dashboard/Account', [AccountController::class, 'index'])->name('account');
+    Route::get('/Dashboard/Setting', [SettingController::class, 'store'])->name('store-setting');
+    Route::get('/Dashboard/Account', [SettingController::class, 'account'])->name('account-setting');
+    Route::post('/Dashboard/Account/{redirect}', [SettingController::class, 'update'])
+            ->name('account-redirect');
 });
 
 //admin dashboard

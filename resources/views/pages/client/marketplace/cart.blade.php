@@ -98,23 +98,13 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="address_one">Address 1</label>
-                  <input
-                    type="text"
-                    name="address_one"
-                    class="form-control mt-2"
-                    id="address_one"
-                  />
+                  <input type="text" name="address_one" class="form-control mt-2" id="address_one"/>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="address_two">Address 2</label>
-                  <input
-                    type="text"
-                    name="address_two"
-                    class="form-control mt-2"
-                    id="address_two"
-                  />
+                  <input type="text" name="address_two" class="form-control mt-2" id="address_two"/>
                 </div>
               </div>
               <div class="col-md-4 mt-3">
@@ -138,34 +128,19 @@
               <div class="col-md-4 mt-3">
                 <div class="form-group">
                   <label for="zip_code">Postal Code</label>
-                  <input
-                    type="text"
-                    name="zip_code"
-                    class="form-control mt-2"
-                    id="zip_code"
-                  />
+                  <input type="text" name="zip_code" class="form-control mt-2" id="zip_code"/>
                 </div>
               </div>
               <div class="col-md-6 mt-3">
                 <div class="form-group">
                   <label for="country">Country</label>
-                  <input
-                    type="text"
-                    name="country"
-                    class="form-control mt-2"
-                    id="country"
-                  />
+                  <input type="text"name="country" class="form-control mt-2" id="country"/>
                 </div>
               </div>
               <div class="col-md-6 mt-3">
                 <div class="form-group">
                   <label for="phone">Mobile</label>
-                  <input
-                    type="text"
-                    name="phone"
-                    class="form-control mt-2"
-                    id="phone"
-                  />
+                  <input type="text" name="phone" class="form-control mt-2" id="phone"/>
                 </div>
               </div>
             </div>
