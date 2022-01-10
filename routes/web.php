@@ -35,26 +35,39 @@ Route::get('/Category', [userCategory::class, 'index'])->name('categories');
 Route::get('/Category/{slug}', [userCategory::class, 'detail'])->name('category-detail');
 Route::get('/Detail/{slug}', [DetailController::class, 'index'])->name('detail');
 Route::post('/Detail/{id}', [DetailController::class, 'add'])->name('detail-add');
-Route::get('/Cart', [CartController::class, 'index'])->name('cart');
-Route::delete('/Cart/{id}', [CartController::class, 'delete'])->name('cart-delete');
 
-Route::post('/Checkout', [CheckoutController::class, 'process'])->name('checkout');
 Route::post('/Checkout/Callback', [CheckoutController::class, 'callback'])->name('midtrans-callback');
 Route::get('/Success', [CartController::class, 'success'])->name('success');
 
-//dashboard
-Route::get('/Dashboard', [userDashboard::class, 'index'])->name('dashboard');
-Route::get('/Product', [ProductController::class, 'index'])->name('product');
-Route::get('/AddProduct', [ProductController::class, 'addProduct'])->name('addProduct');
-Route::get('/ProductDetail/{id}', [ProductController::class, 'productDetail'])->name('productDetail');
-Route::get('/Transactions', [TransactionController::class, 'index'])->name('transactions');
-Route::get('/TransactionDetail/{id}', [TransactionController::class, 'transactionDetail'])
-            ->name('transactionDetail');
-Route::get('/Setting', [SettingController::class, 'index'])->name('setting');
-Route::get('/Account', [AccountController::class, 'index'])->name('account');
+Route::group(['middleware' => ['auth']], function(){
+    Route::get('/Cart', [CartController::class, 'index'])->name('cart');
+    Route::delete('/Cart/{id}', [CartController::class, 'delete'])->name('cart-delete');
+    Route::post('/Checkout', [CheckoutController::class, 'process'])->name('checkout');
+
+    //dashboard
+    Route::get('/Dashboard', [userDashboard::class, 'index'])->name('dashboard');
+
+    Route::get('/Dashboard/Product', [ProductController::class, 'index'])->name('product');
+    Route::get('/Dashboard/Product/Add', [ProductController::class, 'create'])->name('addProduct');
+    Route::post('/Dashboard/Product', [ProductController::class, 'store'])->name('storeProduct');
+    Route::get('/Dashboard/ProductDetail/{id}', [ProductController::class, 'details'])->name('productDetail');
+    Route::post('/Dashboard/Product/Edit/{id}', [ProductController::class, 'update'])->name('productUpdate');
+
+    Route::post('/Dashboard/Product/Gallery/Upload', [ProductController::class, 'uploadImage'])
+            ->name('upload-product-image');
+    Route::get('/Dashboard/Product/Gallery/Delete/{id}', [ProductController::class, 'deleteImage'])
+            ->name('delete-product-image');
+
+    Route::get('/Dashboard/Transactions', [TransactionController::class, 'index'])->name('transactions');
+    Route::get('/Dashboard/TransactionDetail/{id}', [TransactionController::class, 'transactionDetail'])
+                ->name('transactionDetail');
+
+    Route::get('/Dashboard/Setting', [SettingController::class, 'index'])->name('setting');
+    Route::get('/Dashboard/Account', [AccountController::class, 'index'])->name('account');
+});
 
 //admin dashboard
-Route::prefix('Admin')->namespace('Admin')->group(function(){
+Route::prefix('Admin')->namespace('Admin')->middleware(['auth','admin'])->group(function(){
     Route::get('/', [adminDashboard::class, 'index'])->name('admin-dashboard');
     Route::resource('Category', '\App\Http\Controllers\Admin\CategoryController');
     Route::resource('User', '\App\Http\Controllers\Admin\UserController');
@@ -62,7 +75,6 @@ Route::prefix('Admin')->namespace('Admin')->group(function(){
     Route::resource('Gallery', '\App\Http\Controllers\Admin\ProductGalleryController');
 });
 
-// ->middleware(['auth','admin'])
 //auth
 Route::get('/Register/Success', [RegisterController::class, 'registerSuccess'])->name('register-success');
 

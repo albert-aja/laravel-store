@@ -22,7 +22,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Nama Produk</label>
-                                            <input type="text" name="product_name" class="form-control mt-2 @error('product_name') is-invalid @enderror" placeholder="Nama Produk" value="{{ old('product_name') }}" required>
+                                            <input type="text" name="product_name" class="form-control mt-2 @error('product_name') is-invalid @enderror" placeholder="Nama Produk" value="{{ old('product_name') }}" required autofocus>
                                             @error('product_name')
                                             <div class="invalid-feedback">
                                                 {{ $message }}

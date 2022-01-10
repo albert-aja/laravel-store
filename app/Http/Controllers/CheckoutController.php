@@ -42,6 +42,8 @@ class CheckoutController extends Controller
                 'shipping_status'    => 'PENDING',
             ]);
         }
+
+        $this->cart::where('users_id', Auth::user()->id)->delete();
         
         //CONFIG MIDTRANS
         Config::$serverKey = config('services.midtrans.serverKey');
@@ -59,14 +61,14 @@ class CheckoutController extends Controller
                 'first_name' => $user->name,
                 'email'      => $user->email,
             ],
-            'enable_payments' => [
+            'enabled_payments' => [
                 'gopay', 'bank_transfer'
             ],
             'vtweb' => []
         ];
 
         try {
-            return redirect(\Midtrans\Snap::createTransaction($midtrans)->redirect_url);
+            return redirect(Snap::createTransaction($midtrans)->redirect_url);
         }
         catch (Exception $e) {
             echo $e->getMessage();

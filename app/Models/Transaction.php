@@ -14,4 +14,8 @@ class Transaction extends Model
         'transaction_code', 'users_id', 'insurance_fee', 
         'shipping_fee', 'total_price', 'transaction_status_id'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'users_id', 'id');
+    }
 }

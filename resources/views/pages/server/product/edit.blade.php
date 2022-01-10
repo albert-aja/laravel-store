@@ -55,7 +55,7 @@
                                     <div class="col-md-12 mt-3">
                                         <div class="form-group">
                                             <label>Kategori</label>
-                                            <select name="categories_id" class="form-control mt-2 @error('categories') is-invalid @enderror" required>
+                                            <select name="categories_id" class="form-control form-select mt-2 @error('categories') is-invalid @enderror" required>
                                                 <option disabled selected>--- Kategori ---</option>
                                                 @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}"

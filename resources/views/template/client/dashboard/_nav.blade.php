@@ -12,26 +12,33 @@
             <li class="nav-item dropdown">
             <a href="#" class="nav-link" id="navbarDropdown" data-bs-toggle="dropdown">
                     <img src="/images/icon-user.png" class="rounded-circle me-2 profile-picture" alt="" />
-                    Hi, User
+                    Hi, {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu">
-                    <a href="/dashboard.html" class="dropdown-item">Dashboard</a>
-                    <a href="/dashboard-account.html" class="dropdown-item">Settings</a>
+                    <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
+                    <a href="{{ route('account') }}" class="dropdown-item">Settings</a>
                     <div class="dropdown-divider"></div>
-                    <a href="/" class="dropdown-item">Logout</a>
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item">Logout</a>
                 </div>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link d-inline-block mt-2">
+                <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2">
+                    @php
+                        $carts = \App\Models\Cart::where('users_id', Auth::user()->id)->count();
+                    @endphp
+                    @if ($carts)
                     <img src="/images/icon-cart-filled.svg" alt="" />
-                    <div class="card-badge">3</div>
+                    <div class="card-badge">{{ $carts }}</div>
+                    @else
+                    <img src="/images/icon-cart-empty.svg" alt="" />
+                    @endif
                 </a>
             </li>
         </ul>
 
         <ul class="navbar-nav d-block d-lg-none">
             <li class="nav-item">
-                <a href="#" class="nav-link">Hi, User</a>
+                <a href="#" class="nav-link">Hi, {{ Auth::user()->name }}</a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link d-inline-block">Cart</a>
@@ -39,4 +46,5 @@
         </ul>
         </div>
     </div>
+    <form action="{{ route('logout') }}" id="logout-form" method="POST" class="d-none">@csrf</form>
 </nav>
