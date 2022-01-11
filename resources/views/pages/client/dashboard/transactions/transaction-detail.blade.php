@@ -8,7 +8,7 @@
 <div class="section-content section-dashboard-home" data-aos="fade-up">
   <div class="container-fluid">
     <div class="dashboard-heading">
-      <h2 class="dashboard-title">#{{ $transaction_details->transaction_code }}</h2>
+      <h2 class="dashboard-title">#{{ $transaction_details->code }}</h2>
       <p class="dashboard-subtitle">Transactions / Details</p>
     </div>
     <div class="dashboard-content" id="transactions-details">

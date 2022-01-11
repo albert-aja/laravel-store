@@ -7,6 +7,7 @@
         <a href="{{ route('Category.index') }}" class="list-group-item {{ (request()->is('Admin/Category*') ? 'active' : '') }}">Categories</a>
         <a href="{{ route('Product.index') }}" class="list-group-item {{ (request()->is('Admin/Product*') ? 'active' : '') }}">Products</a>
         <a href="{{ route('Gallery.index') }}" class="list-group-item {{ (request()->is('Admin/Gallery*') ? 'active' : '') }}">Galleries</a>
+        <a href="{{ route('Transaction.index') }}" class="list-group-item {{ (request()->is('Admin/Transaction*') ? 'active' : '') }}">Transactions</a>
         <a href="{{ route('User.index') }}" class="list-group-item {{ (request()->is('Admin/User*') ? 'active' : '') }}">Users</a>
         <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="list-group-item">Sign Out</a>
         <form action="{{ route('logout') }}" id="logout-form" method="POST" class="d-none">@csrf</form>
